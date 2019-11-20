@@ -35,12 +35,12 @@ typedef NS_ENUM(NSInteger, T1PogoPenPressureResponse)
 
 @interface T1PogoPen : NSObject
 
-@property (assign, readonly) T1Peripheral __unsafe_unretained	*peripheral;
+@property (weak, readonly) T1Peripheral *peripheral;
 @property (strong, readonly, nonatomic) CBService	*parentService;
 @property (assign, readonly) BOOL					isConnected;
 @property (assign, readonly) NSTimeInterval			connectionTimestamp;
 @property (assign, readonly) T1PogoTouchType		type;
-@property (assign, readonly) penCapabilities		*capabilitiesBitfield;
+@property (assign, readonly) penCapabilities		capabilitiesBitfield;
 @property (assign, readonly) NSUInteger				numberOfButtons;
 @property (strong, readonly, nonatomic) UIColor		*LEDColor;
 @property (strong, readonly, nonatomic) UIColor		*penBodyColor;	// may not be accurate
@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, T1PogoPenPressureResponse)
 @property (assign, readonly) BOOL					tipIsDown;
 @property (assign, readonly) BOOL					tipIsDownInRegisteredView;
 @property (assign, readonly) BOOL					tipIsStationary;
+@property (assign, readonly) BOOL					tipIsInProximity;
 @property (assign, readonly) NSTimeInterval			lastMovementTimestamp;
 @property (assign, readonly) NSTimeInterval			lastTipDownTimestamp;
 @property (assign) BOOL								usePressureSmoothing;

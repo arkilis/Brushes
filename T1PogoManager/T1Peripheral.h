@@ -32,7 +32,7 @@
 @property (assign, readonly) BOOL			isShared;	// Another app connected this peripheral
 
 @property (strong, readonly, nonatomic) NSArray *pens;
-@property (assign, readonly) CBPeripheral __unsafe_unretained * parentPeripheral;
+@property (weak, readonly) CBPeripheral *parentPeripheral;
 
 - (NSString *)batteryPercentString;
 

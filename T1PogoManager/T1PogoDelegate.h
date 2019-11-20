@@ -16,7 +16,7 @@
 
 // Bluetooth power status
 // If state == CBCentralManagerStatePoweredOff, it may be polite to let your user know on first app launch, then perhaps later if it seems likely they will use a Pogo Connect soon.
-- (void)pogoManager:(T1PogoManager *)manager didUpdateBluetoothState:(CBCentralManagerState)state;
+- (void)pogoManager:(T1PogoManager *)manager didUpdateBluetoothState:(CBManagerState)state;
 
 
 // button events
@@ -57,9 +57,10 @@
 - (void)pogoManager:(T1PogoManager *)manager didDetectLowBatteryForPen:(T1PogoPen *)pen;        // pen battery below 5%
 - (void)pogoManager:(T1PogoManager *)manager didDetectHardwareErrorForPen:(T1PogoPen *)pen;     // hardware failure can be reported
 - (void)pogoManager:(T1PogoManager *)manager didChangeDebugString:(NSString *)string;   // watch debug messages
-- (void)pogoManager:(T1PogoManager *)manager didDetectTipDown:(T1PogoEvent *)event forPen:( T1PogoPen * )pen;     // not so useful
-- (void)pogoManager:(T1PogoManager *)manager didDetectTipUp:(T1PogoEvent *)event forPen:( T1PogoPen * )pen;       // not so useful
-
+- (void)pogoManager:(T1PogoManager *)manager didDetectTipDown:(T1PogoEvent *)event forPen:( T1PogoPen * )pen;
+- (void)pogoManager:(T1PogoManager *)manager didDetectTipUp:(T1PogoEvent *)event forPen:( T1PogoPen * )pen;
+- (void)pogoManager:(T1PogoManager *)manager didDetectProximityEnter:(T1PogoEvent *)event forPen:(T1PogoPen *)pen;
+- (void)pogoManager:(T1PogoManager *)manager didDetectProximityExit:(T1PogoEvent *)event forPen:(T1PogoPen *)pen;
 
 // methods for implementing a custom scanning pen list
 // This is a nice way to unify the look of your app.  If you'd like to see sample code for a basic scanning UITableView, email devs@tenonedesign.com, and we'll hook you up.

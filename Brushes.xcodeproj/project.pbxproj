@@ -405,6 +405,7 @@
 		6BF9986815A67C7100AFBB3A /* merge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BF9986615A67C7000AFBB3A /* merge@2x.png */; };
 		6BF9986F15A776EC00AFBB3A /* WDCellSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF9986E15A776EC00AFBB3A /* WDCellSelectionView.m */; };
 		6BFA802C1249CEDB00D1749C /* WDLayerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA802B1249CEDB00D1749C /* WDLayerCell.m */; };
+		8BCCA5882384BF93008199AA /* libT1PogoManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BCCA5872384BF93008199AA /* libT1PogoManager.a */; };
 		C01FCF5008A9545400542486 /* WDSynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542485 /* WDSynchronizer.m */; };
 		C01FCF5008A954540054248D /* WDAddLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054248C /* WDAddLayer.m */; };
 		C01FCF5008A9545400542490 /* WDDeleteLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054248F /* WDDeleteLayer.m */; };
@@ -972,6 +973,7 @@
 		6BF9986E15A776EC00AFBB3A /* WDCellSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDCellSelectionView.m; sourceTree = "<group>"; };
 		6BFA802A1249CEDB00D1749C /* WDLayerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDLayerCell.h; sourceTree = "<group>"; };
 		6BFA802B1249CEDB00D1749C /* WDLayerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDLayerCell.m; sourceTree = "<group>"; };
+		8BCCA5872384BF93008199AA /* libT1PogoManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libT1PogoManager.a; sourceTree = "<group>"; };
 		C01FCF5008A9545400542484 /* WDSynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDSynchronizer.h; sourceTree = "<group>"; };
 		C01FCF5008A9545400542485 /* WDSynchronizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDSynchronizer.m; sourceTree = "<group>"; };
 		C01FCF5008A9545400542487 /* WDDocumentChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDDocumentChange.h; sourceTree = "<group>"; };
@@ -1001,6 +1003,7 @@
 				6BD7072412AD011F004E07C9 /* OpenGLES.framework in Frameworks */,
 				6BD7072512AD011F004E07C9 /* QuartzCore.framework in Frameworks */,
 				6BD7072612AD011F004E07C9 /* Security.framework in Frameworks */,
+				8BCCA5882384BF93008199AA /* libT1PogoManager.a in Frameworks */,
 				6BD7072712AD011F004E07C9 /* UIKit.framework in Frameworks */,
 				6BDDFA6C13E7924600B10774 /* MobileCoreServices.framework in Frameworks */,
 				6BEB5AF0147DA84D00686784 /* Twitter.framework in Frameworks */,
@@ -1784,6 +1787,7 @@
 			isa = PBXGroup;
 			children = (
 				6BDB83C21593CDC10037E10B /* libT1PogoManager.a */,
+				8BCCA5872384BF93008199AA /* libT1PogoManager.a */,
 				6BDB83C31593CDC10037E10B /* Media */,
 				6BDB83C51593CDC10037E10B /* T1Peripheral.h */,
 				6BDB83C61593CDC10037E10B /* T1PogoDelegate.h */,
@@ -2397,6 +2401,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/T1PogoManager\"",
+					"$(PROJECT_DIR)/T1PogoManager",
 				);
 				PRODUCT_NAME = Brushes;
 				PROVISIONING_PROFILE = "";
@@ -2430,6 +2435,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/T1PogoManager\"",
+					"$(PROJECT_DIR)/T1PogoManager",
 				);
 				PRODUCT_NAME = Brushes;
 				PROVISIONING_PROFILE = "";
@@ -2484,6 +2490,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/T1PogoManager\"",
+					"$(PROJECT_DIR)/T1PogoManager",
 				);
 				PRODUCT_NAME = Brushes;
 				PROVISIONING_PROFILE = "";
@@ -2543,6 +2550,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/T1PogoManager\"",
+					"$(PROJECT_DIR)/T1PogoManager",
 				);
 				PRODUCT_NAME = Brushes;
 				PROVISIONING_PROFILE = "";

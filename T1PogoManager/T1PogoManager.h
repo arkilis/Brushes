@@ -1,6 +1,6 @@
 /*	Usage Instructions:
 
- Drag the T1PogoManager folder into your XCode project.
+ Drag the T1PogoManager folder into your XCode project. Make sure header and library search paths are set to find the headers and binary.
 
  1) #import "T1PogoManager.h into your view controller header and declare <T1PogoDelegate> protocol.  Add CoreBluetooth.framework, AVFoundation.framework, and Security.framework to your build phases.
 
@@ -11,15 +11,15 @@
 
  4) Make sure multipleTouchEnabled = YES; for any views that will accept a pen.
 
- 5) Create a button for managing pens somewhere in your settings.  When the button is pressed, call something like:
+ 5) Create a button for managing pens somewhere in your settings.  When the button is tapped, call something like:
  UIPopoverController * popover = [self.pogoManager scanningPopover];
  [popover presentPopoverFromRect:[sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 
- This will show a UI for connecting/disconnecting and configuring pens.  Of course, it's fine to do your own UI using didDiscoverPeripheral and didUpdatePeripheral.
+ This will show a UI for connecting/disconnecting and configuring pens.  Of course, it’s fine to do your own UI using didDiscoverPeripheral and didUpdatePeripheral.
 
  6) When you handle touches, call [self.pogoManager touchIsPen:touch] or [self.pogoManager pressureForTouch:touch] as needed.  These all return extremely fast.
 
- 7) In some cases, the type of touch can change.  If you're doing palm rejection, we recommend you implement the pogoManager:didChangeTouchType:forPen: delegate method to handle any change.  Compare pogoEvent.touchType with pogoEvent.previousTouchType.  If a touch changes from a pen type to an unknown or finger touch, stop and undo the stroke.  Another note about palm rejection - If Multitasking Gestures are enabled, palm rejection performance will be inhibited.
+ 7) In some cases, the type of touch can change.  If you’re doing palm rejection, we recommend you implement the pogoManager:didChangeTouchType:forPen: delegate method to handle any change.  Compare pogoEvent.touchType with pogoEvent.previousTouchType.  If a touch changes from a pen type to an unknown or finger touch, stop and undo the stroke.  Another note about palm rejection - If system-wide Multitasking Gestures are enabled, palm rejection performance will be inhibited.
 
  8) Many apps use gestures to control pan, zoom, and undo.  However, gestures can be accidentally triggered with a resting palm.  This SDK can tell you when to disable gestures, allowing users to rest their hand on the iPad.  On Disable, cancel any gestures in progress.  Stop new gestures from happening.  Look for pogoManagerDidSuggestDisablingGesturesForRegisteredViews: and pogoManagerDidSuggestEnablingGesturesForRegisteredViews:.  If a pen is connected and in use, it may be a good idea to delay your navigation gestures a bit to allow them a chance to be disabled by our API.
  
@@ -70,8 +70,7 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
 @interface T1PogoManager : NSObject
 
 /*
- If a pen starts advertising, we'll handle asking the user to connect.
- You can customize the alert view by setting viewForConnectionPrompt
+ If a pen starts advertising, we’ll handle asking the user to connect.
  You can turn off this behavior by setting showConnectionPromptForNewPens to NO
  */
 @property (nonatomic, assign) BOOL showConnectionPromptForNewPens;
@@ -86,6 +85,11 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
  Library build number
  */
 @property (assign, readonly) NSUInteger buildNumber;
+
+/*
+ Bluetooth State. This is dynamic, so listen for delegate messages to keep up to date
+ */
+@property (nonatomic, assign, readonly) CBManagerState bluetoothState;
 
 
 
@@ -113,7 +117,7 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
 
 
 /*
- Optional singleton access.  Don't use this unless you know what you're doing.
+ Optional singleton access.  Don’t use this unless you know what you’re doing.
  There is no way to destroy this object, or turn off the SDK once you ask for this.
  Use the delegate methods above to add delegates as required.
  */
@@ -122,14 +126,11 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
 
 
 /*
- Obtain popover controller to allow connection of pens.
- Display with presentPopoverFromRect:inView:permittedArrowDirections:animated:
- You may also obtain just the view controller for pushing onto your own nav stack.
- If you'd like to make your own pen connection interface, see the Peripheral-based API below
+ Obtain view controller to allow connection of pens.
+ Display as you like.  UIPopoverPresentationController is frequently used.
+ If you’d like to make your own pen connection interface, see the Peripheral-based API below
  */
-- (UIPopoverController *)scanningPopover;
 - (UITableViewController *)scanningViewController;
-- (UINavigationController *)scanningViewControllerForPhone;
 
 
 
@@ -137,7 +138,7 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
  Pen & touch information methods.  Call these in your touches down/moved/ended methods.
  
  touchIsPen: is an easy way to do palm rejection.
- If it's ever wrong, it will correct itself with didChangeType: callback.
+ If it’s ever wrong, it will correct itself with didChangeType: callback.
  pressureForTouch: provides a pressure value between 0 and 1.
  */
 - (BOOL)touchIsPen:(UITouch *)touch;
@@ -194,16 +195,17 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
  To delete your data, write null.
  Writing or reading may take up to two seconds depending on hardware conditions.
  The completion handlers will indicate any errors with a non-null NSError object.
- Read and write sparingly - it uses up the pen's battery power.
+ Read and write sparingly - it uses up the pen’s battery power.
  The relevant T1Peripheral may be obtained by calling [pen peripheral].
+ Sample code may be found in the T1PogoManagerDemo project
  */
 - (void)readApplicationDataOnPeripheral:(T1Peripheral *)peripheral completionHandler:(void (^)(NSData *data, NSError *error))completionHandler;
 - (void)writeApplicationData:(NSData *)data onPeripheral:(T1Peripheral *)peripheral completionHandler:(void (^)(NSError *error))completionHandler;
 
 
 /*
- If you own a family of applications, for example MS Word and Excel, you can access one application's data on the pen from another application.
- This is useful to transport user's preferences throughout your app family, and from iPad to iPhone.
+ If you own a family of applications, for example MS Word and Excel, you can access one application’s data on the pen from another application.
+ This is useful to transport user’s preferences throughout your app family, and from iPad to iPhone.
  Similar to accessing the keychain, this will only work if the applications accessing data have the same bundle seed id (typically your teamID)
  */
 - (void)readApplicationDataForBundleIdentifier:(NSString *)bundleIdentifier onPeripheral:(T1Peripheral *)peripheral completionHandler:(void (^)(NSData *data, NSError *error))completionHandler;
@@ -211,7 +213,7 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
 
 
 /*
- A unique number you can use as a key to store and retrieve user preference data cross-device.
+ A unique number you can use across devices as a key to store and retrieve user preference data from a server.
  String will be nil until peripheral has connected.
  This can be a good alternative to storing custom data on the pen.
  */
@@ -225,12 +227,12 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
 
 /*
  Peripheral-based API
- Methods for implementing your own pen scanning interface if you're up for it.
- This is what T1PogoManager uses internally, and it's the preferred way.
+ Methods for implementing your own pen scanning interface if you’re up for it.
+ This is what T1PogoManager uses internally, and it’s the preferred way.
  Implement didDiscoverPeripheral: and didUpdatePeripheral: delegate methods to see peripheral data.
  They will be called anytime things change so you can update your table/views.
- The methods here will let you control the peripheral's connection.
- If you're implementing these, you can ignore the pen-based API shown next
+ The methods here will let you control the peripheral’s connection.
+ If you’re implementing these, you can ignore the pen-based API shown next
  */
 - (void)connectPeripheral:(T1Peripheral *)peripheral;
 - (void)disconnectPeripheral:(T1Peripheral *)peripheral;
@@ -243,7 +245,7 @@ typedef NS_ENUM(NSInteger, T1PogoManagerDataOperationError) {
  Pen-based API
  The didConnectPen: and didDisconnectPen: delegates help you keep track of how many pens are connected.
  You can connect and disconnect them with these methods.  In response, T1PogoManager will disconnect the parent peripheral.
- In our context, a pen represents a physical pen tip.  If we ever release a Pogo Connect with an eraser tip, it'll show up as a second tip here.
+ In our context, a pen represents a physical pen tip.  If we ever release a Pogo Connect with an eraser tip, it’ll show up as a second tip here.
  */
 - (void)connectPogoPen:(T1PogoPen *)pen;
 - (void)disconnectPogoPen:(T1PogoPen *)pen;

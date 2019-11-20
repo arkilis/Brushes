@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-typedef NS_ENUM(NSInteger, T1PogoEventType)	// Pogo Egent types
+typedef NS_ENUM(NSInteger, T1PogoEventType)	// Pogo Event types
 {
     T1PogoEventTypeUnknown			= 0,	// should never happen
 	T1PogoEventTypeButtonDown		= 1,	// a button was pressed down
@@ -9,8 +9,11 @@ typedef NS_ENUM(NSInteger, T1PogoEventType)	// Pogo Egent types
 	T1PogoEventTypePressureChange	= 3,	// pressure data did change
 	T1PogoEventTypeTouchTypeChange	= 4,	// touch type did change
 	T1PogoEventTypeExtendedData		= 5,	// extended data for UITouch
-	T1PogoEventTypeTipDown			= 6,	// only for advanced use
-	T1PogoEventTypeTipUp			= 7		// only for advanced use
+	T1PogoEventTypeTipDown			= 6,	// tip has contacted screen
+	T1PogoEventTypeTipUp			= 7,	// tip has lifted from screen
+	T1PogoEventTypeProximityEnter	= 8,	// tip has approached screen
+	T1PogoEventTypeProximityExit	= 9,	// tap has left screen area
+	T1PogoEventTypeTipLocationChange = 10	// private
 };
 
 
@@ -45,8 +48,8 @@ typedef NS_ENUM(NSInteger, T1PogoButton)	// Possible button numbers for devices 
 
 @interface T1PogoEvent : NSObject
 
-@property (assign, readonly) id __unsafe_unretained	touch;	// a back-pointer to the associated UITouch object
-@property (assign, readonly) id __unsafe_unretained	pen;	// the pen this event came from
+@property (weak, readonly) id touch;	// a back-pointer to the associated UITouch object
+@property (weak, readonly) id pen;	// the pen this event came from
 @property (assign, readonly) T1PogoEventType		type;	// why this event is being delivered
 @property (assign, readonly, nonatomic) BOOL		isPen;	// shortcut to find if it's a pen of any (type>1)
 @property (assign, readonly, nonatomic) T1PogoTouchType touchType;	// what type of touch this is associated with
