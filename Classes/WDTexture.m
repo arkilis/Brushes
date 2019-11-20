@@ -11,6 +11,8 @@
 
 #import "WDTexture.h"
 #import "WDUtilities.h"
+#import <OpenGLES/ES3/gl.h>
+#import <OpenGLES/ES3/glext.h>
 
 @interface WDTexture (Private)
 - (void) loadTextureFromImage:(CGImageRef)image forceRGB:(BOOL)forceRGB;

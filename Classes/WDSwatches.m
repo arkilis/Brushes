@@ -85,6 +85,7 @@ const float kSwatchSize = 45.0f;
     
     self.opaque = NO;
     self.backgroundColor = nil;
+    [super awakeFromNib];
 }
 
 - (id)initWithFrame:(CGRect)frame

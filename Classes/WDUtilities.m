@@ -15,6 +15,7 @@
 #import "WDUtilities.h"
 #include <CommonCrypto/CommonHMAC.h>
 #include <sys/sysctl.h>
+#import <OpenGLES/ES3/glext.h>
 
 #define kMiterLimit 10
 
@@ -491,6 +492,8 @@ CGAffineTransform WDTransformForOrientation(UIInterfaceOrientation orientation)
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     switch (orientation) {
+        case UIInterfaceOrientationUnknown:
+            break;
         case UIInterfaceOrientationPortrait:
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
